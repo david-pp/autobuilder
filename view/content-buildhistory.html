@@ -34,10 +34,15 @@
     </thead>
     <tbody>
 
+    @(define (status-icon build)
+      (cond
+        [(= (buildhistory-status build) 1) "<span style=\"color:#00ff00\" class=\"glyphicon glyphicon-ok\"></span>"]
+        [(= (buildhistory-status build) 0) "<span style=\"color:#ff0000\" class=\"glyphicon glyphicon-remove\"></span>"]))
+
     @in[build builds]{
         <tr>
         <td>@(buildhistory-buildtime build)</td>
-        <td> <span style="color:#00ff00" class="glyphicon glyphicon-ok"></span></td>
+        <td>@status-icon[build]</td>
         <td>@(buildhistory-revisions build)</td>
         <td>20:00:00</td>
         <td></td>
