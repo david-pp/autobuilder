@@ -5,6 +5,8 @@
          web-server/templates
          xml)
 
+(require "../model.rkt")
+
 (provide (all-defined-out))
 
 ;;
@@ -24,6 +26,11 @@
 		empty
 		(list (string->bytes/utf-8 template))))
 
+
+(define (render-navside)
+	(let ([hosts (get-qa-hosts)])
+		(include-template "../view/nav-side.html")))
+
 (define (render-page pagecontent)
 	(define-syntax-rule (template file)
 		(make-cdata #f #f (include-template file)))
@@ -32,7 +39,7 @@
      `(html (head ,(template "../view/header.html"))
             (body 
             	,(template "../view/nav-top.html")
-            	,(let ([leftside (include-template "../view/nav-side.html")] [content pagecontent]) 
+            	,(let ([leftside (render-navside)] [content pagecontent]) 
             		(template "../view/body.html"))
             	,(template "../view/body-bottom.html")))))
 
@@ -43,31 +50,29 @@
 ;; Main Page
 ;;
 (define (page-index request)
-	(response/template (include-template "../view/dashboard.html")))
+	(page-build-history request))
+	
 
 ;;
 ;; Building Histories, Show all building info & time usage;
 ;;
 (define (page-build-history request)
-	(response/template (include-template "../view/dashboard.html")))
+	(render-page 
+		(let ([builds (get-build-history)])
+			(include-template "../view/content-buildhistory.html"))))
+	
 
 ;;
 ;; Building Detail.
 ;;
 (define (page-build-detail request build)
-	(response/xexpr
-     `(html (head (title "Build"))
-            (body (p "Build:")
-            	(p ,build)))))
+	(page-build-history request))
 
 ;;
 ;; Host Info
 ;;
-(define (page-host request host)
-	(response/xexpr
-     `(html (head (title "Host"))
-            (body (p "Host:")
-            	(p ,host)))))
+(define (page-host request)
+	(render-page (include-template "../view/content-hostinfo.html")))
 
 #|
 (define (page-index request)

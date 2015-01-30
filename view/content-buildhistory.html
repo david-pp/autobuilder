@@ -1,0 +1,63 @@
+<h1 class="page-header">AutoBuilder</h1>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-body chart" id="curve1">
+            <span id="memoryGaugeContainer"></span>
+        <span id="cpuGaugeContainer"></span>
+        <span id="networkGaugeContainer"></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-primary" >
+      <div class="panel-body" id="curve2">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default panel-primary">
+  <div class="panel-heading">Build History</div>
+  <div class="panel-body">
+  </div>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Status</th>
+        <th>Revisions(Server|Share|Config)</th>
+        <th>Build Time</th>
+        <th>Log</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    @in[build builds]{
+        <tr>
+        <td>@(buildhistory-buildtime build)</td>
+        <td> <span style="color:#00ff00" class="glyphicon glyphicon-ok"></span></td>
+        <td>@(buildhistory-revisions build)</td>
+        <td>20:00:00</td>
+        <td></td>
+      </tr>
+    }
+    </tbody>
+  </table>
+  <div class="panel-footer">
+    footer..
+  </div>
+</div>
+
+<center><nav>
+  <ul class="pagination">
+    <li><a href="#">&laquo;</a></li>
+    <li class="active"><a href="#" >1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">&raquo;</a></li>
+  </ul>
+</nav></center>
